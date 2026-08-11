@@ -192,4 +192,4 @@ None of these are blocking — the app works end-to-end without them — but the
 
 ## License
 
-MIT — do whatever you want with it.
+MIT — see [LICENSE](LICENSE). Use whatever's useful here.
