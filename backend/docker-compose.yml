@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: fyp_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fyp
+      POSTGRES_PASSWORD: fyp_dev_password
+      POSTGRES_DB: fyp_network
+    ports:
+      - "5432:5432"
+    volumes:
+      - fyp_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fyp -d fyp_network"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: fyp_minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: fyp_minio_admin
+      MINIO_ROOT_PASSWORD: fyp_minio_password
+    ports:
+      - "9000:9000" # S3 API
+      - "9001:9001" # Web console
+    volumes:
+      - fyp_minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  fyp_pg_data:
+  fyp_minio_data:

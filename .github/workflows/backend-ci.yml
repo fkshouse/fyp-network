@@ -1,0 +1,75 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+  pull_request:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend-ci.yml"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: fyp
+          POSTGRES_PASSWORD: fyp_dev_password
+          POSTGRES_DB: fyp_network
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U fyp -d fyp_network"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      DATABASE_URL: "postgresql://fyp:fyp_dev_password@localhost:5432/fyp_network?schema=public"
+      JWT_ACCESS_SECRET: "ci_access_secret"
+      JWT_REFRESH_SECRET: "ci_refresh_secret"
+      JWT_ACCESS_EXPIRES_IN: "15m"
+      JWT_REFRESH_EXPIRES_IN: "30d"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      # Uses `db push` rather than `migrate deploy` deliberately: this repo
+      # doesn't have committed migration files yet (that requires running
+      # `npx prisma migrate dev` locally first, which needs a real Postgres
+      # connection - not something this pipeline does for you). `db push`
+      # syncs the schema directly and needs no migration history, so CI
+      # stays green from a fresh clone. Once real migrations are committed
+      # (see backend/README.md), this can switch to `prisma migrate deploy`
+      # for stricter parity with how a production deploy would apply schema
+      # changes.
+      - name: Sync database schema
+        run: npx prisma db push --skip-generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test -- --ci
+
+      - name: Build
+        run: npm run build

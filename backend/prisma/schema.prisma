@@ -1,0 +1,230 @@
+// Prisma schema for the FYP network rebuild.
+// Phase 1: User, RefreshToken
+// Phase 2: Post, Comment, Like, Media
+// Phase 3: Connection, Notification
+// Phase 4: Group, Membership, Task
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String   @id @default(uuid())
+  email          String   @unique
+  passwordHash   String
+  firstName      String
+  lastName       String
+  headline       String? // e.g. "Software Engineer at Acme" - LinkedIn-style tagline
+  company        String?
+  bio            String?
+  profilePicture String? // object key in the media bucket, resolved to a URL on read
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  refreshTokens RefreshToken[]
+
+  sentConnectionRequests     Connection[]   @relation("RequesterConnections")
+  receivedConnectionRequests Connection[]   @relation("AddresseeConnections")
+  notifications              Notification[] @relation("NotificationRecipient")
+  triggeredNotifications     Notification[] @relation("NotificationActor")
+  groupsCreated              Group[]        @relation("GroupCreatedBy")
+  memberships                Membership[]
+  tasksAssigned              Task[]         @relation("TaskAssignee")
+  tasksCreated               Task[]         @relation("TaskCreatedBy")
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  tokenHash String // refresh tokens are stored hashed, never in plaintext
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  media    Media[]
+  comments Comment[]
+  likes    Like[]
+
+  @@index([authorId, createdAt])
+  @@map("posts")
+}
+
+// A post can carry 0..n media attachments (images/video), unlike the
+// original schema which bolted a single image path onto each post row.
+model Media {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  objectKey String // key in the S3/MinIO bucket
+  mimeType  String
+  createdAt DateTime @default(now())
+
+  @@index([postId])
+  @@map("media")
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([postId, createdAt])
+  @@map("comments")
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  // a user can only like a given post once
+  @@unique([postId, userId])
+  @@index([postId])
+  @@map("likes")
+}
+
+// ---------- Phase 3: connections & notifications ----------
+
+enum ConnectionStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model Connection {
+  id          String           @id @default(uuid())
+  requesterId String
+  requester   User             @relation("RequesterConnections", fields: [requesterId], references: [id], onDelete: Cascade)
+  addresseeId String
+  addressee   User             @relation("AddresseeConnections", fields: [addresseeId], references: [id], onDelete: Cascade)
+  status      ConnectionStatus @default(PENDING)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  // one pending/accepted request between any two users at a time
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId, status])
+  @@index([requesterId, status])
+  @@map("connections")
+}
+
+enum NotificationType {
+  CONNECTION_REQUEST
+  CONNECTION_ACCEPTED
+  POST_LIKE
+  POST_COMMENT
+  TASK_ASSIGNED
+  GROUP_ADDED
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String // recipient
+  user      User             @relation("NotificationRecipient", fields: [userId], references: [id], onDelete: Cascade)
+  actorId   String? // who triggered it (null for system notifications)
+  actor     User?            @relation("NotificationActor", fields: [actorId], references: [id], onDelete: SetNull)
+  type      NotificationType
+  message   String
+  postId    String?
+  connectionId String?
+  taskId    String?
+  groupId   String? // lets the client deep-link straight to the right group for task/group notifications
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead, createdAt])
+  @@map("notifications")
+}
+
+// ---------- Phase 4: groups & tasks ----------
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+model Group {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdById String
+  createdBy   User     @relation("GroupCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+
+  members Membership[]
+  tasks   Task[]
+
+  @@map("groups")
+}
+
+model Membership {
+  id       String         @id @default(uuid())
+  groupId  String
+  group    Group          @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role     MembershipRole @default(MEMBER)
+  joinedAt DateTime       @default(now())
+
+  @@unique([groupId, userId])
+  @@index([userId])
+  @@map("memberships")
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+model Task {
+  id                String     @id @default(uuid())
+  groupId           String
+  group             Group      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  title             String
+  description       String?
+  status            TaskStatus @default(TODO)
+  completionPercent Int        @default(0) // 0-100, independent of status so progress can be tracked mid-column
+  assigneeId        String?
+  assignee          User?      @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  createdById       String
+  createdBy         User       @relation("TaskCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+  dueDate           DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@index([groupId, status])
+  @@index([assigneeId])
+  @@map("tasks")
+}

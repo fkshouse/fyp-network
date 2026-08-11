@@ -1,0 +1,154 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.fypnetwork"
+4    android:versionCode="1"
+5    android:versionName="0.1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:4:5-67
+11-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:4:22-64
+12
+13    <permission
+13-->[androidx.core:core:1.13.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\2f74d3eb3c01d70fdf0ead7484a677e8\workspace\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
+14        android:name="com.fypnetwork.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+14-->[androidx.core:core:1.13.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\2f74d3eb3c01d70fdf0ead7484a677e8\workspace\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
+15        android:protectionLevel="signature" />
+15-->[androidx.core:core:1.13.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\2f74d3eb3c01d70fdf0ead7484a677e8\workspace\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
+16
+17    <uses-permission android:name="com.fypnetwork.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+17-->[androidx.core:core:1.13.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\2f74d3eb3c01d70fdf0ead7484a677e8\workspace\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
+17-->[androidx.core:core:1.13.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\2f74d3eb3c01d70fdf0ead7484a677e8\workspace\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
+18
+19    <application
+19-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:6:5-27:19
+20        android:name="com.fypnetwork.FypApplication"
+20-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:7:9-39
+21        android:allowBackup="true"
+21-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:8:9-35
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.13.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\2f74d3eb3c01d70fdf0ead7484a677e8\workspace\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
+23        android:debuggable="true"
+24        android:extractNativeLibs="false"
+25        android:icon="@mipmap/ic_launcher"
+25-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:9:9-43
+26        android:label="@string/app_name"
+26-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:10:9-41
+27        android:supportsRtl="true"
+27-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:11:9-35
+28        android:testOnly="true"
+29        android:theme="@style/Theme.FypNetwork"
+29-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:12:9-48
+30        android:usesCleartextTraffic="true" >
+30-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:13:9-44
+31
+32        <!--
+33             usesCleartextTraffic=true is for local dev only (http://10.0.2.2),
+34             since the local backend isn't running behind TLS. Remove/restrict
+35             this once pointing at a real HTTPS deployment.
+36        -->
+37
+38        <activity
+38-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:18:9-26:20
+39            android:name="com.fypnetwork.MainActivity"
+39-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:19:13-41
+40            android:exported="true"
+40-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:20:13-36
+41            android:theme="@style/Theme.FypNetwork" >
+41-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:21:13-52
+42            <intent-filter>
+42-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:22:13-25:29
+43                <action android:name="android.intent.action.MAIN" />
+43-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:23:17-69
+43-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:23:25-66
+44
+45                <category android:name="android.intent.category.LAUNCHER" />
+45-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:24:17-77
+45-->C:\Users\fksho\Documents\fyp-rebuild\android\app\src\main\AndroidManifest.xml:24:27-74
+46            </intent-filter>
+47        </activity>
+48
+49        <provider
+49-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+50            android:name="androidx.startup.InitializationProvider"
+50-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+51            android:authorities="com.fypnetwork.androidx-startup"
+51-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+52            android:exported="false" >
+52-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+53            <meta-data
+53-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+54                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+54-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+55                android:value="androidx.startup" />
+55-->[androidx.emoji2:emoji2:1.3.0] C:\Users\fksho\.gradle\caches\9.3.0\transforms\5a34d9b616cd349d380fd5287d7ed8c2\workspace\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+56            <meta-data
+56-->[androidx.lifecycle:lifecycle-process:2.8.6] C:\Users\fksho\.gradle\caches\9.3.0\transforms\dcdee98cf899c7c431021793454b0723\workspace\transformed\lifecycle-process-2.8.6\AndroidManifest.xml:29:13-31:52
+57                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+57-->[androidx.lifecycle:lifecycle-process:2.8.6] C:\Users\fksho\.gradle\caches\9.3.0\transforms\dcdee98cf899c7c431021793454b0723\workspace\transformed\lifecycle-process-2.8.6\AndroidManifest.xml:30:17-78
+58                android:value="androidx.startup" />
+58-->[androidx.lifecycle:lifecycle-process:2.8.6] C:\Users\fksho\.gradle\caches\9.3.0\transforms\dcdee98cf899c7c431021793454b0723\workspace\transformed\lifecycle-process-2.8.6\AndroidManifest.xml:31:17-49
+59            <meta-data
+59-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+60                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+60-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+61                android:value="androidx.startup" />
+61-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+62        </provider>
+63
+64        <activity
+64-->[androidx.compose.ui:ui-test-manifest:1.7.3] C:\Users\fksho\.gradle\caches\9.3.0\transforms\77bd7638db5d6fcb15d9d6f2ec0f09b2\workspace\transformed\ui-test-manifest-1.7.3\AndroidManifest.xml:23:9-25:39
+65            android:name="androidx.activity.ComponentActivity"
+65-->[androidx.compose.ui:ui-test-manifest:1.7.3] C:\Users\fksho\.gradle\caches\9.3.0\transforms\77bd7638db5d6fcb15d9d6f2ec0f09b2\workspace\transformed\ui-test-manifest-1.7.3\AndroidManifest.xml:24:13-63
+66            android:exported="true" />
+66-->[androidx.compose.ui:ui-test-manifest:1.7.3] C:\Users\fksho\.gradle\caches\9.3.0\transforms\77bd7638db5d6fcb15d9d6f2ec0f09b2\workspace\transformed\ui-test-manifest-1.7.3\AndroidManifest.xml:25:13-36
+67        <activity
+67-->[androidx.compose.ui:ui-tooling-android:1.7.3] C:\Users\fksho\.gradle\caches\9.3.0\transforms\61917432411c317673f53df645c793f3\workspace\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+68            android:name="androidx.compose.ui.tooling.PreviewActivity"
+68-->[androidx.compose.ui:ui-tooling-android:1.7.3] C:\Users\fksho\.gradle\caches\9.3.0\transforms\61917432411c317673f53df645c793f3\workspace\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+69            android:exported="true" />
+69-->[androidx.compose.ui:ui-tooling-android:1.7.3] C:\Users\fksho\.gradle\caches\9.3.0\transforms\61917432411c317673f53df645c793f3\workspace\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+70
+71        <receiver
+71-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+72            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+72-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+73            android:directBootAware="false"
+73-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+74            android:enabled="true"
+74-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+75            android:exported="true"
+75-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+76            android:permission="android.permission.DUMP" >
+76-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+77            <intent-filter>
+77-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+78                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+78-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+78-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+79            </intent-filter>
+80            <intent-filter>
+80-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+81                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+81-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+81-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+82            </intent-filter>
+83            <intent-filter>
+83-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+84                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+84-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+84-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+85            </intent-filter>
+86            <intent-filter>
+86-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+87                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+87-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\fksho\.gradle\caches\9.3.0\transforms\fa3b5ac128740a57cac299b326997654\workspace\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+88            </intent-filter>
+89        </receiver>
+90    </application>
+91
+92</manifest>
